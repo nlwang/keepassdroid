@@ -10,6 +10,11 @@ package com.keepassdroid.compat;
  * freely, as long as the origin is not misrepresented.
  */
 
+import android.os.Build;
+import android.os.Process;
+
+import com.keepassdroid.utils.StrUtil;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -28,14 +33,9 @@ import java.security.SecureRandomSpi;
 import java.security.Security;
 import java.util.Locale;
 
-import com.keepassdroid.utils.StrUtil;
-
-import android.os.Process;
-import android.os.Build;
-
 /**
  * Fixes for the output of the default PRNG having low entropy.
- *
+ * <p>
  * The fixes need to be applied via {@link #apply()} before any use of Java
  * Cryptography Architecture primitives. A good place to invoke them is in the
  * application's {@code onCreate}.
@@ -43,80 +43,83 @@ import android.os.Build;
 public final class PRNGFixes {
 
     private static final byte[] BUILD_FINGERPRINT_AND_DEVICE_SERIAL =
-        getBuildFingerprintAndDeviceSerial();
+            getBuildFingerprintAndDeviceSerial();
     private static int sdkVersion = Build.VERSION.SDK_INT;
 
-    /** Hidden constructor to prevent instantiation. */
-    private PRNGFixes() {}
-    
+    /**
+     * Hidden constructor to prevent instantiation.
+     */
+    private PRNGFixes() {
+    }
+
     /**
      * Applies all fixes.
      *
      * @throws SecurityException if a fix is needed but could not be applied.
      */
     public static void apply() {
-    	try {
-	    	if (supportedOnThisDevice()) {
-		        applyOpenSSLFix();
-		        installLinuxPRNGSecureRandom();
-	    	}
-    	} catch (Exception e) {
-    		// Do nothing, do the best we can to implement the workaround
-    	}
+        try {
+            if (supportedOnThisDevice()) {
+                applyOpenSSLFix();
+                installLinuxPRNGSecureRandom();
+            }
+        } catch (Exception e) {
+            // Do nothing, do the best we can to implement the workaround
+        }
     }
-    
+
     private static boolean supportedOnThisDevice() {
-    	// Blacklist on samsung devices
-    	if (StrUtil.indexOfIgnoreCase(Build.MANUFACTURER, "samsung", Locale.ENGLISH) >= 0) {
-    		return false;
-    	}
-    	
+        // Blacklist on samsung devices
+        if (StrUtil.indexOfIgnoreCase(Build.MANUFACTURER, "samsung", Locale.ENGLISH) >= 0) {
+            return false;
+        }
+
         if (sdkVersion > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             return false;
         }
-        
+
         if (onSELinuxEnforce()) {
-        	return false;
+            return false;
         }
 
-    	File urandom = new File("/dev/urandom");
-    	
-    	// Test permissions
-    	if ( !(urandom.canRead() && urandom.canWrite()) ) {
-    		return false;
-    	}
-    	
-    	
-    	// Test actually writing to urandom
-    	try {
-	    	FileOutputStream fos = new FileOutputStream(urandom);
-	    	fos.write(0);
-    	} catch (Exception e) {
-    		return false;
-    	}
-    	
-    	return true;
-    	
+        File urandom = new File("/dev/urandom");
+
+        // Test permissions
+        if (!(urandom.canRead() && urandom.canWrite())) {
+            return false;
+        }
+
+
+        // Test actually writing to urandom
+        try {
+            FileOutputStream fos = new FileOutputStream(urandom);
+            fos.write(0);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+
     }
-    
+
     private static boolean onSELinuxEnforce() {
-    	try {
-	    	ProcessBuilder builder = new ProcessBuilder("getenforce");
-	    	builder.redirectErrorStream(true);
-	    	java.lang.Process process = builder.start();
-	    	BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	    	process.waitFor();
-	    	
-	    	String output = reader.readLine();
-	    	
-	    	if (output == null) {
-	    		return false;
-	    	}
-	    	
-	    	return output.toLowerCase(Locale.US).startsWith("enforcing");
-    	} catch (Exception e) {
-    		return false;
-    	}
+        try {
+            ProcessBuilder builder = new ProcessBuilder("getenforce");
+            builder.redirectErrorStream(true);
+            java.lang.Process process = builder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            process.waitFor();
+
+            String output = reader.readLine();
+
+            if (output == null) {
+                return false;
+            }
+
+            return output.toLowerCase(Locale.US).startsWith("enforcing");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -174,7 +177,7 @@ public final class PRNGFixes {
         if ((secureRandomProviders == null)
                 || (secureRandomProviders.length < 1)
                 || (!LinuxPRNGSecureRandomProvider.class.equals(
-                        secureRandomProviders[0].getClass()))) {
+                secureRandomProviders[0].getClass()))) {
             Security.insertProviderAt(new LinuxPRNGSecureRandomProvider(), 1);
         }
 
@@ -199,7 +202,7 @@ public final class PRNGFixes {
                 rng2.getProvider().getClass())) {
             throw new SecurityException(
                     "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong"
-                    + " Provider: " + rng2.getProvider().getClass());
+                            + " Provider: " + rng2.getProvider().getClass());
         }
     }
 
@@ -213,7 +216,7 @@ public final class PRNGFixes {
             super("LinuxPRNG",
                     1.0,
                     "A Linux-specific random number provider that uses"
-                        + " /dev/urandom");
+                            + " /dev/urandom");
             // Although /dev/urandom is not a SHA-1 PRNG, some apps
             // explicitly request a SHA1PRNG SecureRandom and we thus need to
             // prevent them from getting the default implementation whose output
@@ -242,7 +245,7 @@ public final class PRNGFixes {
          */
 
         private static final File URANDOM_FILE = new File("/dev/urandom");
-        
+
 
         private static final Object sLock = new Object();
 

@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2018 Brian Pellin.
- *     
+ *
  * This file is part of KeePassDroid.
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
@@ -19,13 +19,6 @@
  */
 package com.keepassdroid.fileselect;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.android.keepass.R;
-import com.keepassdroid.utils.UriUtil;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -33,13 +26,20 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
+import com.android.keepass.R;
+import com.keepassdroid.utils.UriUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecentFileHistory {
 
     private static String DB_KEY = "recent_databases";
     private static String KEYFILE_KEY = "recent_keyfiles";
 
-    private List<String> databases = new ArrayList<String>();
-    private List<String> keyfiles = new ArrayList<String>();
+    private List<String> databases = new ArrayList<>();
+    private List<String> keyfiles = new ArrayList<>();
     private Context ctx;
     private SharedPreferences prefs;
     private OnSharedPreferenceChangeListener listner;
@@ -55,7 +55,7 @@ public class RecentFileHistory {
 
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                    String key) {
+                                                  String key) {
                 if (key.equals(ctx.getString(R.string.recentfile_key))) {
                     enabled = sharedPreferences.getBoolean(ctx.getString(R.string.recentfile_key), ctx.getResources().getBoolean(R.bool.recentfile_default));
                 }
@@ -92,7 +92,7 @@ public class RecentFileHistory {
             int dbIndex = cursor.getColumnIndex(FileDbHelper.KEY_FILE_FILENAME);
             int keyIndex = cursor.getColumnIndex(FileDbHelper.KEY_FILE_KEYFILE);
 
-            if(cursor.moveToFirst()) {
+            if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     String filename = cursor.getString(dbIndex);
                     String keyfile = cursor.getString(keyIndex);
@@ -189,7 +189,8 @@ public class RecentFileHistory {
         for (int i = 0; i < size; i++) {
             edit.putString(keyprefix + "_" + i, list.get(i));
         }
-        edit.apply();;
+        edit.apply();
+        ;
     }
 
     public void deleteFile(Uri uri) {
@@ -229,7 +230,7 @@ public class RecentFileHistory {
 
         int size = databases.size();
         for (int i = 0; i < size; i++) {
-            if (UriUtil.equalsDefaultfile(database,databases.get(i))) {
+            if (UriUtil.equalsDefaultfile(database, databases.get(i))) {
                 return UriUtil.parseDefaultFile(keyfiles.get(i));
             }
         }
