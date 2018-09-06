@@ -41,14 +41,13 @@ import org.spongycastle.crypto.StreamCipher;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
-import biz.source_code.base64Coder.Base64Coder;
+import com.keepassdroid.base64.Base64Coder;
 
 import com.keepassdroid.crypto.CipherFactory;
 import com.keepassdroid.crypto.PwStreamCipherFactory;
 import com.keepassdroid.crypto.engine.CipherEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfEngine;
 import com.keepassdroid.crypto.keyDerivation.KdfFactory;
-import com.keepassdroid.database.BinaryPool;
 import com.keepassdroid.database.CrsAlgorithm;
 import com.keepassdroid.database.EntryHandler;
 import com.keepassdroid.database.GroupHandler;

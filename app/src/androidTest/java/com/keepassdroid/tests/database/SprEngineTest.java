@@ -25,7 +25,7 @@ import java.util.UUID;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
-import biz.source_code.base64Coder.Base64Coder;
+import com.keepassdroid.base64.Base64Coder;
 
 import com.keepassdroid.database.PwDatabaseV4;
 import com.keepassdroid.database.PwEntryV4;

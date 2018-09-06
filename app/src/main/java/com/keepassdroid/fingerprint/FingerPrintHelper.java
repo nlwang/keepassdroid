@@ -29,11 +29,8 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import com.keepassdroid.compat.KeyGenParameterSpecCompat;
 import com.keepassdroid.compat.KeyguardManagerCompat;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
-import java.security.UnrecoverableEntryException;
-import java.security.UnrecoverableKeyException;
 import java.security.spec.AlgorithmParameterSpec;
 
 import javax.crypto.BadPaddingException;
@@ -43,7 +40,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
-import biz.source_code.base64Coder.Base64Coder;
+import com.keepassdroid.base64.Base64Coder;
 
 public class FingerPrintHelper {
 

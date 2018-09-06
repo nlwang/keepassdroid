@@ -2,6 +2,7 @@
 /build
 /app/build
 /projectFilesBackup
+.externalNativeBuild
 
 # Built application files
 *.apk
