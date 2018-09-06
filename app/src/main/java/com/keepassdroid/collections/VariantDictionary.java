@@ -24,7 +24,6 @@ import com.keepassdroid.stream.LEDataOutputStream;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 

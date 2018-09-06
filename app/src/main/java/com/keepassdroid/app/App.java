@@ -19,13 +19,13 @@
  */
 package com.keepassdroid.app;
 
-import java.util.Calendar;
-
 import android.app.Application;
 
 import com.keepassdroid.Database;
 import com.keepassdroid.compat.PRNGFixes;
 import com.keepassdroid.fileselect.RecentFileHistory;
+
+import java.util.Calendar;
 
 public class App extends Application {
 	private static Database db = null;

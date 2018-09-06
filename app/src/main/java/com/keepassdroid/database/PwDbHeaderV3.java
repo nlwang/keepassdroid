@@ -46,9 +46,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.keepassdroid.database;
 
-import java.io.IOException;
-
 import com.keepassdroid.stream.LEDataInputStream;
+
+import java.io.IOException;
 
 public class PwDbHeaderV3 extends PwDbHeader {
 

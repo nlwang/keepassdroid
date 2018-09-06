@@ -1,6 +1,6 @@
 /*
  * Copyright 2012-2015 Brian Pellin.
- *     
+ *
  * This file is part of KeePassDroid.
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
@@ -25,17 +25,17 @@ import com.keepassdroid.timeout.TimeoutHelper;
 
 public abstract class LockingActivity extends Activity {
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		
-		TimeoutHelper.pause(this);
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+        TimeoutHelper.pause(this);
+    }
 
-		TimeoutHelper.resume(this);
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TimeoutHelper.resume(this);
+    }
 }
