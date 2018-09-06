@@ -22,8 +22,8 @@
 #include "argon2.h"
 #include "opt.h"
 
-#include "blake2/blake2.h"
-#include "blake2/blamka-round-opt.h"
+#include "blake2.h"
+#include "blamka-round-opt.h"
 
 void fill_block(__m128i *state, const block *ref_block, block *next_block,
                 int with_xor) {
